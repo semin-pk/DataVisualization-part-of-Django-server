@@ -76,15 +76,11 @@ class Todoview(View):
 
     def get(self, request):
         #userid 라는 파라미터를 읽기
-        if request.GET["userid"] is not None:
-            userid = request.GET["userid"]
-            todos = Todo.objects.filter(userid = userid)
-            return JsonResponse({"list":list(todos.values())})
+    
+        userid = request.GET["userid"]
+        todos = Todo.objects.filter(userid = userid)
+        return JsonResponse({"list":list(todos.values())})
         
-        else:
-            fields_list = [field.name for field in Todo._meta.fields]
-            return JsonResponse({"list":fields_list})
-
 
 
     '''def put(self, request):
