@@ -41,4 +41,4 @@ class Todoview(View):
     def get(self, request):
         #userid 라는 파라미터를 읽기
             fields_list = [field.name for field in Todo._meta.fields]
-            return JsonResponse({"list":fields_list})
+            return JsonResponse({"list": fields_list})

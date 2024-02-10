@@ -15,6 +15,8 @@ from django.http import JsonResponse
 #클라이언트의 정보를 JSON 문자열로 만들기 위한 import
 import json
 
+from django.shortcuts import render
+from django.http import HttpResponse
 
 #Todo 클래스의 인스턴스를 디셔너리로 변환해주는 함수
 #JsonResponse로 JSON 데이터를 출력하고자 하면 빠르게 JSON문자열로 만들때 dict만 가능
@@ -49,7 +51,9 @@ def todoToDictionary(todo:Todo) -> dict:
 
 
 
-
+def index(request):
+    data = Todo.objects.filter().values()
+    return HttpResponse(list(data))
 #csrf 설정으로 클라이언트 애플리케이션을 별도로 구현하는 경우 필수
 @method_decorator(csrf_exempt, name = 'dispatch')
 class Todoview(View):
@@ -61,26 +65,28 @@ class Todoview(View):
         #클라이언트에서 입력해주는 데이터만 읽어오면 됨
         
         userid = request["userid"]
-        title = request["title"]
+        #title = request["title"]
         #모델 인스턴스를 생성
         todo = Todo()
         todo.userid = userid
-        todo.title = title
+        #todo.title = title
 
         todo.save()
 
         #userid와 일치하는 데이터만 추출
         todos = Todo.objects.filter(userid = userid)
         #todos = todoToDictionary(todos)
-        return JsonResponse({"list":list(todos.values())})'''
+        return JsonResponse({"list":list(todos.values())})
 
     def get(self, request):
         #userid 라는 파라미터를 읽기
     
         userid = request.GET["userid"]
         todos = Todo.objects.filter(userid = userid)
+        return JsonResponse({"list":list(todos.values())})'''
+    def get(self, request):
+        todos = Todo.objects.filter().values()
         return JsonResponse({"list":list(todos.values())})
-        
 
 
     '''def put(self, request):

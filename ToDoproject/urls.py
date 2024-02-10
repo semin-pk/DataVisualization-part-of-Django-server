@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from todoapp import views, showlist
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('all/', views.index),
     path('todo/', views.Todoview.as_view()),
-    path('list/', showlist.Todoview.as_view())
+    path('list/', showlist.Todoview.as_view()),
 ]
